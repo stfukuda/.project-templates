@@ -1,0 +1,6 @@
+defaults:
+  - hydra: base
+  - dataset: base
+  - optuna: base
+  - mlflow: base
+  - model: base
