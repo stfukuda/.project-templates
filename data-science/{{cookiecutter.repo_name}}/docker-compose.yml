@@ -1,0 +1,86 @@
+version: '3.9'
+services:
+  kaggle:
+    image: gcr.io/kaggle-gpu-images/python:latest
+    container_name: kaggle-container
+    hostname: kaggle_server
+    shm_size: 8gb
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    ports:
+      - 8888:8888
+    volumes:
+      - type: bind
+        source: .
+        target: /workspace
+    working_dir: /workspace
+    env_file:
+      - .env
+  pycaret:
+    image: pycaret/full:latest
+    container_name: pycaret-container
+    hostname: pycaret_server
+    shm_size: 8gb
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    ports:
+      - 8889:8888
+    volumes:
+      - type: bind
+        source: .
+        target: /workspace
+    working_dir: /workspace
+    env_file:
+      - .env
+  tensorflow:
+    image: tensorflow/tensorflow:2.9.1-gpu-jupyter
+    container_name: tensorflow-container
+    hostname: tensorflow_server
+    shm_size: 8gb
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    ports:
+      - 8890:8888
+    volumes:
+      - type: bind
+        source: .
+        target: /workspace
+    working_dir: /workspace
+    env_file:
+      - .env
+  pytorch:
+    image: pytorch/pytorch:1.12.0-cuda11.3-cudnn8-devel
+    container_name: pytorch-container
+    hostname: pytorch_server
+    shm_size: 8gb
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    ports:
+      - 8891:8888
+    volumes:
+      - type: bind
+        source: .
+        target: /workspace
+    working_dir: /workspace
+    env_file:
+      - .env
